@@ -147,7 +147,8 @@ def decode_token(token: str) -> User:
         status_code=status.HTTP_401_UNAUTHORIZED, 
         detail="Could not validate credentials."
     )
-    token = token.removeprefix("Bearer").strip()
+    if token.startswith("Bearer"):
+        token = token[len("Bearer"):].strip()
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("username")
