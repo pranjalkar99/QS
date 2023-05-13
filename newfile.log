@@ -1,0 +1,19 @@
+2023-05-13 20:48:18,937 This will get logged to a file
+2023-05-13 20:48:56,760 Home Page
+2023-05-13 20:49:03,183 Calling on_field_start with no data
+2023-05-13 20:49:03,184 Calling on_field_name with data[0:8]
+2023-05-13 20:49:03,184 Calling on_field_data with data[9:28]
+2023-05-13 20:49:03,184 Calling on_field_end with no data
+2023-05-13 20:49:03,185 Calling on_field_start with no data
+2023-05-13 20:49:03,185 Calling on_field_name with data[29:37]
+2023-05-13 20:49:03,185 Calling on_field_data with data[38:46]
+2023-05-13 20:49:03,186 Calling on_field_end with no data
+2023-05-13 20:49:03,187 Calling on_end with no data
+2023-05-13 20:49:04,451 Home Page
+2023-05-13 20:49:06,407 User1 exists...
+2023-05-13 20:49:06,542 Data-file 1 found in app.
+2023-05-13 20:49:09,923 This is a Warning jsut checking from /work
+2023-05-13 20:52:53,700 Home Page
+2023-05-13 20:52:55,752 User1 exists...
+2023-05-13 20:52:55,946 Data-file 1 found in app.
+2023-05-13 20:52:57,444 This is a Warning jsut checking from /work

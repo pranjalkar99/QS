@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload to GCP Bucket</title>
+  <script>
+    async function uploadBlobToGCPBucket(blob, bucketName, fileName, accessToken) {
+      const uploadURL = `https://storage.googleapis.com/upload/storage/v1/b/${bucketName}/o?uploadType=media&name=${fileName}`;
+    
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${accessToken}`);
+      headers.append('Content-Type', blob.type);
+    
+      const response = await fetch(uploadURL, {
+        method: 'POST',
+        body: blob,
+        headers: headers,
+      });
+      console.log(response);
+    
+      if (response.ok) {
+        console.log('Blob uploaded to GCP bucket successfully.');
+      } else {
+        console.log('Failed to upload blob to GCP bucket.');
+      }
+    }
+
+
+
+    function handleFileUpload() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+    
+      const bucketName = 'your-gcp-bucket-name';
+      const fileName = 'abc.html';
+    
+      const blob = new Blob([file], { type: file.type });
+      const accessTokenJson = {
+        "type": "service_account",
+        "project_id": "compfox-367313",
+        "private_key_id": "ad58ca97af3bd482365b0cddf6a3c7cf0015b054",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhSgsEyA1I2PxC\nR7nYvzpKa7z5cxGYWQDMd6rPnLN19n/gwaKtp//sjT7deN5RPvTi2zLqGIcwenVo\n//mlLYwEmMpbl7RuCjVUiwhEZMEQ0MY3bXBpyvdd84nKiY4K3x8c4eC6iL8/lrPi\nRM6OLeMw6ui0ASsTGJWceJKqP4Jd+DWl4T0C6brA3EYwYPMCOdRrU6wkhBxsYZyZ\nB2oVCK62H4LWAfPs8B+LCJuDowu4YiJm23V+8be1iGLTWb9RoWvNghIPAvve/i6Y\nyqaorheEsDvtO+ZOV+c9ntm5y+LDts6ku0L5SN1uXV2DxVIbZl8Oykld79HeGZjB\n6go+FjLZAgMBAAECggEABeHUJxIul5zzvCrJgU1f4R7OQrCUkGbdgJksxGot3Nn8\nZYLEw7Y31kYrUqbD3jjvtacdvZM5n2RJIb5SNzP43ItdODY+K6PYV95f70I2sMDU\nthCFT3vRSNqRmdBM3T+NXUiQAKrOnINLq9AaWQe9b3Los792j5N0H49d2/RXy+qB\nNmt",
+        "client_email": "compfox-367313@appspot.gserviceaccount.com",
+        "client_id": "104706865119045372559",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/compfox-367313%40appspot.gserviceaccount.com"
+      };
+
+      const accessToken = accessTokenJson.access_token;
+
+  uploadBlobToGCPBucket(blob, bucketName, fileName, accessToken);
+}
+
+// Function to get the access token from the JSON object
+function getAccessTokenFromJson(accessTokenJson) {
+  return accessTokenJson.access_token;
+}
+
+    function handleFileUpload() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      const bucketName = 'checked_upload';
+      const fileName = 'abc.html';
+
+      const blob = new Blob([file], { type: file.type });
+
+      uploadBlobToGCPBucket(blob, bucketName, fileName);
+    }
+  </script>
+</head>
+<body>
+  <input type="file" id="fileInput">
+  <button onclick="handleFileUpload()">Upload</button>
+</body>
+</html>

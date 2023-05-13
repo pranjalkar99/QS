@@ -1,0 +1,35 @@
+
+{% include '_site_map.html' %}
+
+
+
+{% for error in errors %}
+    <p style="color: red">{{ error }}</p>
+{% endfor %}
+<div class="container py-5 d-flex align-items-center justify-content-center">
+    <div class="w-50 border p-3 shadow rounded">
+        <!-- If error occurs  -->
+        <!-- <h2 class="text-danger w-100 text-center">Error 404</h2> -->
+        <div class="w-100 d-flex align-items-center justify-content-center mb-4">
+            <h2>Quality Check CompFox</h2>
+        </div>
+        <form action="/auth/login" method="post">
+            <div class="w-100 d-flex align-items-center justify-content-center ">
+                <h3>Login</h3>
+
+            </div>
+            <div class="mb-3">
+                <label for="email-input" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email-input" name="username" value="{{ username }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="password-input" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password-input" name="password" value="{{ password }}"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </form>
+    </div>
+
+<hr>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+</head>
+<body>
+    <div id="tagId">Some Html Content bc
+        <p>Kya haal chaal chutiye..</p>
+        <b>Lawde</b>
+    </div>
+    <script>
+        // Function to extract HTML inside a tag and save it temporarily
+function saveHTMLTemporarily(tagId) {
+  const tagElement = document.getElementById(tagId);
+  const htmlContent = tagElement.innerHTML;
+  sessionStorage.setItem('tempHTML', htmlContent);
+}
+
+// Function to convert temporary HTML to JSON and send POST request to the current URL
+function convertHTMLtoJSONAndSendPostRequest() {
+  const tempHTML = sessionStorage.getItem('tempHTML');
+
+  // Convert HTML to JSON
+  const jsonData = { html: tempHTML };
+
+  // Get current URL
+  const currentUrl = window.location.href;
+
+  // Send POST request to current URL using Fetch API
+  fetch(currentUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(jsonData),
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Handle response data
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle error
+      console.error(error);
+    });
+}
+
+    </script>
+</body>
+</html>
