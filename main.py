@@ -348,17 +348,27 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
 
 
 if os.path.isfile('db4_data.json'):
+    try:
+        with open('db4_data.json', 'r') as f:
+            read = json.load(f)
+            # Process the JSON data
+    except FileNotFoundError:
+        print("Error: File not found")
+    except IOError:
+        print("Error: Unable to read the file")
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", str(e))
     d=open('db4_data.json','r')
     read=json.loads(d.read())
-if os.path.isfile('db4_data_2k.json'):
-    d=open('db4_data_2k.json','r')
-    read_2k=json.loads(d.read())
-if os.path.isfile('db4_data_3k.json'):
-    d=open('db4_data_3k.json','r')
-    read_3k=json.loads(d.read())
-if os.path.isfile('db4_data_4k.json'):
-    d=open('db4_data_4k.json','r')
-    read_4k=json.loads(d.read())
+# if os.path.isfile('db4_data_2k.json'):
+#     d=open('db4_data_2k.json','r')
+#     read_2k=json.loads(d.read())
+# if os.path.isfile('db4_data_3k.json'):
+#     d=open('db4_data_3k.json','r')
+#     read_3k=json.loads(d.read())
+# if os.path.isfile('db4_data_4k.json'):
+#     d=open('db4_data_4k.json','r')
+#     read_4k=json.loads(d.read())
 
 
 @app.get("/test/{id}",response_class=HTMLResponse)
