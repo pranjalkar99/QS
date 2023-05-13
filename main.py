@@ -358,8 +358,8 @@ if os.path.isfile('db4_data.json'):
         print("Error: Unable to read the file")
     except json.JSONDecodeError as e:
         print("Error decoding JSON:", str(e))
-    d=open('db4_data.json','r')
-    read=json.loads(d.read())
+    # d=open('db4_data.json','r')
+    # read=json.loads(d.read())
 # if os.path.isfile('db4_data_2k.json'):
 #     d=open('db4_data_2k.json','r')
 #     read_2k=json.loads(d.read())
