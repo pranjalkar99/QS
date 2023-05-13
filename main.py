@@ -344,22 +344,25 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
 # Private Page for each id.. working 
 # --------------------------------------------------------------------------
 # A private page for each id that only logged in users can access.
-if os.path.isfile('db4_data.json'):
-    d=open('db4_data.json','r')
-    read=json.loads(d.read())
+try:
+    if os.path.isfile('db4_data.json'):
+        d=open('db4_data.json','r')
+        read=json.loads(d.read())
 
-if os.path.isfile('db4_data_2k.json'):
-    d=open('db4_data_2k.json','r')
-    read_2k=json.loads(d.read())
+    if os.path.isfile('db4_data_2k.json'):
+        d=open('db4_data_2k.json','r')
+        read_2k=json.loads(d.read())
 
-if os.path.isfile('db4_data_3k.json'):
-    d=open('db4_data_3k.json','r')
-    read_3k=json.loads(d.read())
+    if os.path.isfile('db4_data_3k.json'):
+        d=open('db4_data_3k.json','r')
+        read_3k=json.loads(d.read())
 
 
-if os.path.isfile('db4_data_4k.json'):
-    d=open('db4_data_4k.json','r')
-    read_4k=json.loads(d.read())
+    if os.path.isfile('db4_data_4k.json'):
+        d=open('db4_data_4k.json','r')
+        read_4k=json.loads(d.read())
+except:
+    print("bhai bhari samsya haii.")
 
 @app.get("/test/{id}",response_class=HTMLResponse)
 def test_get(request: Request,id):
