@@ -1,4 +1,5 @@
 import datetime as dt
+import re
 from typing import Dict, List, Optional
 import json,os
 from google.cloud import storage
@@ -14,7 +15,7 @@ from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 from pydantic import BaseModel
 from rich import inspect, print
 from rich.console import Console
-from work import get_json,get_first_100,send_bucket
+from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket
 import logging
 console = Console()
 
@@ -276,7 +277,7 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
-                background_tasks.add_task(get_second_100)
+                # background_tasks.add_task(get_second_100)
                 logging.log("Data loading started in background.")
 
         except:
@@ -290,7 +291,7 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
-                background_tasks.add_task(get_third_100)
+                # background_tasks.add_task(get_third_100)
                 logging.log("Data loading started in background.")
 
         except:
@@ -304,7 +305,7 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
-                background_tasks.add_task(get_third_100)
+                # background_tasks.add_task(get_third_100)
                 logging.log("Data loading started in background.")
 
         except:
@@ -318,7 +319,7 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
-                background_tasks.add_task(get_fourth_100)
+                # background_tasks.add_task(get_fourth_100)
                 logging.log("Data loading started in background.")
 
         except:
@@ -344,25 +345,21 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
 # Private Page for each id.. working 
 # --------------------------------------------------------------------------
 # A private page for each id that only logged in users can access.
-try:
-    if os.path.isfile('db4_data.json'):
-        d=open('db4_data.json','r')
-        read=json.loads(d.read())
-
-    if os.path.isfile('db4_data_2k.json'):
-        d=open('db4_data_2k.json','r')
-        read_2k=json.loads(d.read())
-
-    if os.path.isfile('db4_data_3k.json'):
-        d=open('db4_data_3k.json','r')
-        read_3k=json.loads(d.read())
 
 
-    if os.path.isfile('db4_data_4k.json'):
-        d=open('db4_data_4k.json','r')
-        read_4k=json.loads(d.read())
-except:
-    print("bhai bhari samsya haii.")
+if os.path.isfile('db4_data.json'):
+    d=open('db4_data.json','r')
+    read=json.loads(d.read())
+if os.path.isfile('db4_data_2k.json'):
+    d=open('db4_data_2k.json','r')
+    read_2k=json.loads(d.read())
+if os.path.isfile('db4_data_3k.json'):
+    d=open('db4_data_3k.json','r')
+    read_3k=json.loads(d.read())
+if os.path.isfile('db4_data_4k.json'):
+    d=open('db4_data_4k.json','r')
+    read_4k=json.loads(d.read())
+
 
 @app.get("/test/{id}",response_class=HTMLResponse)
 def test_get(request: Request,id):
@@ -400,13 +397,26 @@ class HTMLData(BaseModel):
     url: str
     html: str
 
-@app.post("/handle_button_click")
+@app.post("/handle-button-click")
 async def handle_button_click(request: Request):
+    filename="default"
     json_data = await request.json()
 
     # Save the JSON data as a text file
-    with open("received_data.txt", "w") as file:
+    with open("received_data.json", "w") as file:
         file.write(str(json_data))
+    bucket_name = "checked_upload"
+    f = open("received_data.json", "r")
+    text_s=f.readline()
+    match = re.search(r'"http://localhost:8000/work/([^"]+)"', text_s)
+    if match:
+        file_name = match.group(1)
+    # print(extracted_value)
+    file_path = "received_data.json"
+    key_path = "compfox-367313-ad58ca97af3b.json"
+    new_filename=file_name
+
+    upload_to_gcp_bucket(bucket_name, file_path, key_path,new_filename)
 
     return Response(status_code=200)
 

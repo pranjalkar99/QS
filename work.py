@@ -5,6 +5,33 @@ import uuid
 import json
 import random
 import logging
+from google.cloud import storage
+
+def upload_to_gcp_bucket(bucket_name, file_path, key_path, new_filename=None):
+    """Uploads a file to a Google Cloud Storage bucket with an optional new filename."""
+    # Instantiate a client using the service account key
+    client = storage.Client.from_service_account_json(key_path)
+
+    # Get the bucket
+    bucket = client.get_bucket(bucket_name)
+
+    # Extract the original filename from the file path
+    original_filename = os.path.basename(file_path)
+
+    # Determine the new filename
+    if new_filename is None:
+        new_filename = original_filename
+
+    # Create a blob object and upload the file with the new filename
+    blob = bucket.blob(new_filename)
+    blob.upload_from_filename(file_path)
+
+    print(f"File '{file_path}' uploaded to bucket '{bucket_name}' with new filename '{new_filename}' successfully!")
+
+
+
+# Usage example
+
 ## logger config
 # Create and configure logger
 logging.basicConfig(filename="newfile.log",
