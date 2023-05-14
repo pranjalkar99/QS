@@ -17,6 +17,7 @@ from rich import inspect, print
 from rich.console import Console
 from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket
 import logging
+import msgspec
 console = Console()
 
 
@@ -261,7 +262,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
         try:
             if(os.path.isfile('db4_data.json')):
                 t=open("db4_data.json","r")
-                d=json.loads(t.read())
+                d=msgspec.json.encode(t.read())
+#                 d=json.loads(t.read())
                 logging.info("Data-file 1 found in app.")
             else:
                 background_tasks.add_task(get_first_100)
@@ -275,7 +277,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
         try:
             if(os.path.isfile('db4_data_2k.json')):
                 t=open("db4_data_2k.json","r")
-                d=json.loads(t.read())
+                d=msgspec.json.encode(t.read())
+#                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
                 # background_tasks.add_task(get_second_100)
@@ -289,7 +292,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
         try:
             if(os.path.isfile('db4_data_3k.json')):
                 t=open("db4_data_3k.json","r")
-                d=json.loads(t.read())
+                d=msgspec.json.encode(t.read())
+#                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
                 # background_tasks.add_task(get_third_100)
@@ -303,7 +307,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
         try:
             if(os.path.isfile('db4_data_3k.json')):
                 t=open("db4_data_3k.json","r")
-                d=json.loads(t.read())
+                d=msgspec.json.encode(t.read())
+#                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
                 # background_tasks.add_task(get_third_100)
@@ -317,7 +322,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
         try:
             if(os.path.isfile('db4_data_4k.json')):
                 t=open("db4_data_4k.json","r")
-                d=json.loads(t.read())
+                d=msgspec.json.encode(t.read())
+#                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
             else:
                 # background_tasks.add_task(get_fourth_100)
