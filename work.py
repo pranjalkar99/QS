@@ -6,6 +6,24 @@ import json
 import random
 import logging
 from google.cloud import storage
+import json
+
+def clean_received_data(filename):
+    # Open the JSON file for reading
+    with open(filename, 'r') as file:
+        data = file.read()
+
+    # Remove newline characters
+    data = data.replace('\n', '')
+
+    # Parse the modified JSON data
+    json_data = json.loads(data)
+
+    # Do further processing with the JSON data
+
+    # Optional: Save the modified JSON data to a new file
+    with open('modified_data.json', 'w') as file:
+        json.dump(json_data, file)
 
 def upload_to_gcp_bucket(bucket_name, file_path, key_path, new_filename=None):
     """Uploads a file to a Google Cloud Storage bucket with an optional new filename."""

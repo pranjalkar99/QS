@@ -15,7 +15,8 @@ from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 from pydantic import BaseModel
 from rich import inspect, print
 from rich.console import Console
-from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket
+from auth_firebase import download_data_init
+from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket,clean_received_data
 import logging
 # import msgspec
 console = Console()
@@ -260,8 +261,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
     if user.username == "qa1@1kcompfox.com":
         logging.info("User1 exists...")
         try:
-            if(os.path.isfile('db4_data.json')):
-                t=open("db4_data.json","r")
+            if(os.path.isfile('data1.json')):
+                t=open("data1.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.info("Data-file 1 found in app.")
@@ -275,8 +276,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
             logging.error("Some error occured while loading db4 inside /work route. for 1k user file")
     if user.username == "qa2@2kcompfox.com":
         try:
-            if(os.path.isfile('db4_data_2k.json')):
-                t=open("db4_data_2k.json","r")
+            if(os.path.isfile('data2.json')):
+                t=open("data2.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
@@ -290,8 +291,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
             logging.error("Some error occured while loading db4 inside /work route. for 2k user file")
     if user.username == "qa3@3kcompfox.com":
         try:
-            if(os.path.isfile('db4_data_3k.json')):
-                t=open("db4_data_3k.json","r")
+            if(os.path.isfile('data3.json')):
+                t=open("data3.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
@@ -305,8 +306,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
             logging.error("Some error occured while loading db4 inside /work route. for 3k user file")
     if user.username == "qa3@3kcompfox.com":
         try:
-            if(os.path.isfile('db4_data_3k.json')):
-                t=open("db4_data_3k.json","r")
+            if(os.path.isfile('data3.json')):
+                t=open("data3.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
@@ -320,8 +321,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
             logging.error("Some error occured while loading db4 inside /work route. for 3k user file")
     if user.username == "qa4@4kcompfox.com":
         try:
-            if(os.path.isfile('db4_data_4k.json')):
-                t=open("db4_data_4k.json","r")
+            if(os.path.isfile('data4.json')):
+                t=open("data4.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
@@ -354,9 +355,9 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
 # A private page for each id that only logged in users can access.
 
 
-if os.path.isfile('db4_data.json'):
+if os.path.isfile('data1.json'):
     try:
-        with open('db4_data.json', 'r') as f:
+        with open('data1.json', 'r') as f:
             read = json.load(f)
             # Process the JSON data
     except FileNotFoundError:
@@ -365,16 +366,53 @@ if os.path.isfile('db4_data.json'):
         print("Error: Unable to read the file")
     except json.JSONDecodeError as e:
         print("Error decoding JSON:", str(e))
-    # d=open('db4_data.json','r')
-    # read=json.loads(d.read())
-# if os.path.isfile('db4_data_2k.json'):
-#     d=open('db4_data_2k.json','r')
+
+
+if os.path.isfile('data2.json'):
+    try:
+        with open('data2.json', 'r') as f:
+            read_2k = json.load(f)
+            # Process the JSON data
+    except FileNotFoundError:
+        print("Error: File not found")
+    except IOError:
+        print("Error: Unable to read the file")
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", str(e))
+
+if os.path.isfile('data3.json'):
+    try:
+        with open('data3.json', 'r') as f:
+            read_3k = json.load(f)
+            # Process the JSON data
+    except FileNotFoundError:
+        print("Error: File not found")
+    except IOError:
+        print("Error: Unable to read the file")
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", str(e))
+
+if os.path.isfile('data4.json'):
+    try:
+        with open('data4.json', 'r') as f:
+            read_4k = json.load(f)
+            # Process the JSON data
+    except FileNotFoundError:
+        print("Error: File not found")
+    except IOError:
+        print("Error: Unable to read the file")
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", str(e))
+#     d=open('data1.json','r')
+#     read=json.loads(d.read())
+# if os.path.isfile('data2.json'):
+#     d=open('data2.json','r')
 #     read_2k=json.loads(d.read())
-# if os.path.isfile('db4_data_3k.json'):
-#     d=open('db4_data_3k.json','r')
+# if os.path.isfile('data3.json'):
+#     d=open('data3.json','r')
 #     read_3k=json.loads(d.read())
-# if os.path.isfile('db4_data_4k.json'):
-#     d=open('db4_data_4k.json','r')
+# if os.path.isfile('data4.json'):
+#     d=open('data4.json','r')
 #     read_4k=json.loads(d.read())
 
 
@@ -428,8 +466,10 @@ async def handle_button_click(request: Request):
     match = re.search(r'"http://localhost:8000/work/([^"]+)"', text_s)
     if match:
         file_name = match.group(1)
+    
+    clean_received_data("received_data.json")
     # print(extracted_value)
-    file_path = "received_data.json"
+    file_path = "modified_data.json"
     key_path = "compfox-367313-ad58ca97af3b.json"
     new_filename=file_name
 
