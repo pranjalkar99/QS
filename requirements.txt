@@ -47,7 +47,7 @@ PyYAML
 requests
 requests-oauthlib
 rich
-msgspec
+msgspec-0.15.0
 rsa
 six
 sniffio
