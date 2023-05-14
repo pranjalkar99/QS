@@ -25,7 +25,7 @@ console = Console()
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.warning('This will get logged to a file')
 
-
+download_data_init()
 # --------------------------------------------------------------------------
 # Models and Data
 # --------------------------------------------------------------------------
