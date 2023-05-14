@@ -100,7 +100,7 @@
                     alert("<b>Content saved in your browser local! To preserve your changes, click 'Save changes to GCP', after completing all pages...</b> <p>You can see your changes, in this download.</p>");
                   }
                   function callAPI(data) {
-                    fetch('http://localhost:8000/handle-button-click', {
+                    fetch('https://compfox-qa.onrender.com//handle-button-click', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -109,12 +109,14 @@
                     })
                     .then(response => response.json())
                     .then(data => {
+                        alert("Uploaded changes to GCP completed... You may continue now.")
                         // Handle the response data
                 //         console.log(data);
                         // Do something with the response
                     })
                     .catch(error => {
                         // Handle any errors
+                        alert("Could not upload changes to GCP ...")
                         console.error(error);
                     });
                 }

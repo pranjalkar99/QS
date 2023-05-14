@@ -203,4 +203,15 @@ def get_work_id_user2(id):
         return None
 
 
+
+def update_status(json_file, id, new_status):
+    with open(json_file, 'r') as file:
+        data = json.load(file)  # Load the JSON data
+
+    if id in data:
+        data[id]['status'] = new_status  # Update the status for the specified ID
+
+    with open(json_file, 'w') as file:
+        json.dump(data, file, indent=4)
+
 # print(get_work_id_user2("0de4f4f5-ecaf-11ed-acec-ec2e98e427c4"))

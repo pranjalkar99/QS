@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from rich import inspect, print
 from rich.console import Console
 # from auth_firebase import download_data_init
-from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket,clean_received_data,get_work_id_user2
+from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket,clean_received_data,get_work_id_user2,update_status
 import logging
 # import msgspec
 console = Console()
@@ -472,6 +472,15 @@ async def handle_button_click(request: Request):
     file_path = "modified_data.json"
     key_path = "compfox-367313-ad58ca97af3b.json"
     new_filename=file_name
+
+    # Example usage
+    json_file = 'listing_user2.json'
+    id_to_update = file_name
+    new_status = 'success'
+    try:
+        update_status(json_file, id_to_update, new_status)
+    except:
+        logging.warning("Could not update status...")
 
     upload_to_gcp_bucket(bucket_name, file_path, key_path,new_filename)
 
