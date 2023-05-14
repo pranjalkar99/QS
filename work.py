@@ -7,6 +7,9 @@ import random
 import logging
 from google.cloud import storage
 import json
+import firebase_admin
+from firebase_admin import credentials, initialize_app,firestore
+
 
 def clean_received_data(filename):
     # Open the JSON file for reading
@@ -183,4 +186,21 @@ def load_db():
     else:
         logger.error("Not found db in load_db function...")
         return "Not found db."
-        
+cred = credentials.Certificate(r"./qa-compfox-firebase-adminsdk-y690i-09111177d6.json")
+initialize_app(cred) 
+def get_work_id_user2(id):
+    
+
+
+    db = firestore.client()
+
+    doc_ref = db.collection('html').document(id)
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        print(f"No such document with ID '{id}'")
+        return None
+
+
+# print(get_work_id_user2("0de4f4f5-ecaf-11ed-acec-ec2e98e427c4"))

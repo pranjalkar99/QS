@@ -15,8 +15,8 @@ from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 from pydantic import BaseModel
 from rich import inspect, print
 from rich.console import Console
-from auth_firebase import download_data_init
-from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket,clean_received_data
+# from auth_firebase import download_data_init
+from work import get_json,get_first_100,send_bucket,upload_to_gcp_bucket,clean_received_data,get_work_id_user2
 import logging
 # import msgspec
 console = Console()
@@ -25,7 +25,7 @@ console = Console()
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.warning('This will get logged to a file')
 
-download_data_init()
+# download_data_init()
 # --------------------------------------------------------------------------
 # Models and Data
 # --------------------------------------------------------------------------
@@ -276,8 +276,8 @@ async def index(request: Request, background_tasks: BackgroundTasks,user: User =
             logging.error("Some error occured while loading db4 inside /work route. for 1k user file")
     if user.username == "qa2@2kcompfox.com":
         try:
-            if(os.path.isfile('data2.json')):
-                t=open("data2.json","r")
+            if(os.path.isfile('listing_user2.json')):
+                t=open("listing_user2.json","r")
 #                 d=msgspec.json.encode(t.read())
                 d=json.loads(t.read())
                 logging.log("Data-file found in app.")
@@ -368,17 +368,17 @@ if os.path.isfile('data1.json'):
         print("Error decoding JSON:", str(e))
 
 
-if os.path.isfile('data2.json'):
-    try:
-        with open('data2.json', 'r') as f:
-            read_2k = json.load(f)
-            # Process the JSON data
-    except FileNotFoundError:
-        print("Error: File not found")
-    except IOError:
-        print("Error: Unable to read the file")
-    except json.JSONDecodeError as e:
-        print("Error decoding JSON:", str(e))
+# if os.path.isfile('data2.json'):
+#     try:
+#         with open('data2.json', 'r') as f:
+#             read_2k = json.load(f)
+#             # Process the JSON data
+#     except FileNotFoundError:
+#         print("Error: File not found")
+#     except IOError:
+#         print("Error: Unable to read the file")
+#     except json.JSONDecodeError as e:
+#         print("Error decoding JSON:", str(e))
 
 if os.path.isfile('data3.json'):
     try:
@@ -481,9 +481,10 @@ async def handle_button_click(request: Request):
 
 @app.get("/work/{id}", response_class=HTMLResponse)
 async def load_work_id(request: Request, id: str,user: User = Depends(get_current_user_from_token)):
-    obj = read.get(id, None)
+    # obj = read.get(id, None)
     if user.username == "qa2@2kcompfox.com":
-        obj=read_2k.get(id,None)
+        # obj=read_2k.get(id,None)##change this
+        obj=get_work_id_user2(id)
     if user.username == "qa3@3kcompfox.com":
         obj=read_3k.get(id,None)
     if user.username == "qa4@4kcompfox.com":
