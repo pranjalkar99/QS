@@ -102,10 +102,6 @@
                   function callAPI(data) {
                     fetch('https://qapost.onrender.com/handle-button-click', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                          'Origin': 'https://compfox-qa.onrender.com' 
-                        },
                         body: JSON.stringify(data) // Include the JSON data in the request body
                     })
                     .then(response => response.json())
